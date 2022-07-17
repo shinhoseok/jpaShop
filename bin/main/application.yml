@@ -1,0 +1,46 @@
+spring:
+  profiles:
+    active: local
+    
+#로컬환경
+---
+spring:
+  config:
+    activate:
+      on-profile:
+      - local
+  datasource:
+    driver-class-name: org.mariadb.jdbc.Driver
+    url: jdbc:mariadb://127.0.0.1:3306/basic_db
+    username: basic
+    password: timfDev
+    hikari:
+      connection-timeout: 3000
+      validation-timeout: 3000
+      minimum-idle: 5
+      max-lifetime: 240000
+      maximum-pool-size: 20
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    open-in-view: false
+    hibernate:
+      ddl-auto: create
+    show_sql: true
+    properties:
+      hibernate:
+        format_sql: true
+  thymeleaf:
+    mode: HTML
+    encoding: UTF-8
+    check-template-location: true
+    prefix: classpath:/templates/
+    suffix: .html
+    cache: false
+logging:
+    level: 
+      '[org.hibernate.sql]': debug
+      '[org.hibernate.type.descriptor.sql]': trace
+server:
+  port: 8080
+  servlet:
+    context-path: /
