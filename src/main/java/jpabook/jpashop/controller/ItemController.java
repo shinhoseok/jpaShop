@@ -51,12 +51,16 @@ public class ItemController {
         Book item = (Book) itemService.findOne(itemId);
 
         BookForm form = new BookForm();
+        //준영속 엔티티 : 영속성 컨텍스트가 더는 관리하지 않는 엔티티
+        //이렇게 new로 임의로 만들어낸 엔티티도 기존 식별자를 가지고 있으면 준영속 엔티티로 볼 수 있다.
+        //위에 셀렉트를 안했다 쳐도 새로운 객체를 생성했으므로 영속성컨텍스트 관리 안함. 
         form.setId(item.getId());
         form.setName(item.getName());
         form.setPrice(item.getPrice());
         form.setStockQuantity(item.getStockQuantity());
         form.setAuthor(item.getAuthor());
         form.setIsbn(item.getIsbn());
+        //Item result = em.merge(form); result 는 영속성컨텍스트가 관리한다.
 
         model.addAttribute("form", form);
         return "items/updateItemForm";
@@ -64,7 +68,9 @@ public class ItemController {
 
     @PostMapping("items/{itemId}/edit")
     public String updateItem(@PathVariable Long itemId, @ModelAttribute("form") BookForm form) {
-
+    	//위처럼 엔티티를 컨트롤러에서 조작할려고 하지말고 아래처럼 파라미터나 DTO로 명확하게 전달한다.
+    	//트랜잭션이 있는 서비스 계층에서 영속상태의 엔티티를 조회하고, 엔티티의 데이터를직접 변경한다.
+    	//트랜잭션 커밋 시점에 변경 감지가 실행된다.
         itemService.updateItem(itemId, form.getName(), form.getPrice(), form.getStockQuantity());
 
         return "redirect:/items";
