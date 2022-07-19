@@ -17,6 +17,7 @@ import static javax.persistence.FetchType.*;
 @Entity
 @Table(name = "orders")
 @Getter @Setter
+//new 생성을 제한하고 생성메서드를 통해 객체가 생성되도록 강제한다.
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Order {
 

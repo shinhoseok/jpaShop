@@ -28,7 +28,7 @@ public class ItemController {
     @PostMapping("/items/new")
     public String create(BookForm form) {
 
-        Book book = new Book();
+        Book book = new Book(); //create 메소드를 만들어 생성
         book.setName(form.getName());
         book.setPrice(form.getPrice());
         book.setStockQuantity(form.getStockQuantity());
